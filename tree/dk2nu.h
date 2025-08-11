@@ -84,6 +84,8 @@ namespace bsim {
      dk_pim_numubmum     = 14,  ///< pi- => nu_mu_bar + mu-
      dk_mum_capture      = 15,  ///< mu- + (A,Z) => nu
                                 ///   (different kinematics from dkp_mum_nusep)
+     dkp_ds		 = 16,
+     dkp_tau		 = 17,
      dkp_maximum,               ///< one-beyond end for iterating
      dkp_other           = 999  ///< flag for unusual cases
    } dkproc_t;
@@ -142,6 +144,7 @@ namespace bsim {
 
    Int_t    ppmedium;     ///< material nu parent was produced in
    Int_t    ptype;        ///< % nu parent species (PDG? code)
+   Double_t pmass;        ///< % nu parent mass
 
    /** momentum and energy of nu grandparent at
        muons:    grandparent decay point

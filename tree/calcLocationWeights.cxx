@@ -21,7 +21,7 @@ void bsim::calcLocationWeights(const bsim::DkMeta* dkmeta, bsim::Dk2Nu* dk2nu)
       }
       if ( dk2nu->nuray.size() != 1 ) {
         std::cerr << "calcLocationWeights \"" << rkey << "\""
-                  << " nuenergy[" << iloc << "] not filled" << std::endl;
+                  << " nuenergy[" << iloc << "] not filed" << std::endl;
         return; //assert(0);
       }
       continue;
@@ -107,6 +107,19 @@ int bsim::calcEnuWgt(const bsim::Decay& decay, const TVector3& xyz,
   const double kK0MASS      = 0.497614;      // 0.49767;
   const double kMUMASS      = 0.1056583715;  // 0.105658389;
   const double kOMEGAMASS   = 1.67245;       // 1.67245;
+  const double kDMASS       = 1.86966;
+  const double kD0MASS      = 1.86484;
+  const double kDSMASS      = 1.96835;
+  const double kLAMBDAMASS  = 1.115683;
+  const double kLAMBDACMASS = 2.28646;
+  const double kSIGMAPMASS  = 1.18937;
+  const double kSIGMA0MASS  = 1.192642;
+  const double kSIGMAMMASS  = 1.197449;
+  const double kTAUMASS     = 1.77686;
+  const double kXIMASS      = 1.32171;
+  const double kXI0MASS     = 1.31486;
+  const double kXICMASS     = 2.46793;
+  const double kXIC0MASS    = 2.47091;
 #endif
   // from CLHEP/Units/PhysicalConstants.h
   // used by Geant as CLHEP::neutron_mass_c2
@@ -116,6 +129,8 @@ int bsim::calcEnuWgt(const bsim::Decay& decay, const TVector3& xyz,
   const int kpdg_nuebar    =  -12;  // extended Geant 52
   const int kpdg_numu      =   14;  // extended Geant 56
   const int kpdg_numubar   =  -14;  // extended Geant 55
+  const int kpdg_nutau     =   16;
+  const int kpdg_nutaubar  =  -16;
 
   const int kpdg_muplus      =   -13;  // Geant  5
   const int kpdg_muminus     =    13;  // Geant  6
@@ -130,6 +145,33 @@ int bsim::calcEnuWgt(const bsim::Decay& decay, const TVector3& xyz,
   const int kpdg_omegaplus   = -3334;  // Geant 32
   const int kpdg_neutron     =  2112;
   const int kpdg_antineutron = -2112;
+  
+  const int kpdg_tauplus     =   -15;
+  const int kpdg_tauminus    =    15;
+  const int kpdg_dplus       =   411;
+  const int kpdg_dminus      =  -411;
+  const int kpdg_d0          =   421;
+  const int kpdg_dbar0       =  -421;
+  const int kpdg_dsplus      =   431;
+  const int kpdg_dsminus     =  -431;
+  const int kpdg_lambda      =  3122;
+  const int kpdg_lambdabar   = -3122;
+  const int kpdg_sigmaplus   =  3222;
+  const int kpdg_sigmabarplus = -3222;
+  const int kpdg_sigma0      =  3212;
+  const int kpdg_sigmabar0   = -3212;
+  const int kpdg_sigmaminus  =  3112;
+  const int kpdg_sigmabarminus = -3112;
+  const int kpdg_lambdacplus =  4122;
+  const int kpdg_lambdacminus = -4122; 
+  const int kpdg_xiplus      =  3312;
+  const int kpdg_ximinus     = -3312;
+  const int kpdg_xi0         =  3322;
+  const int kpdg_xibar0      = -3322;
+  const int kpdg_xicplus     =  4232;
+  const int kpdg_xicminus    = -4232;
+  const int kpdg_xic0        =  4132;
+  const int kpdg_xicbar0     = -4132;
 
   const double kRDET = 100.0;   // set to flux per 100 cm radius
 
@@ -169,6 +211,58 @@ int bsim::calcEnuWgt(const bsim::Decay& decay, const TVector3& xyz,
   case kpdg_neutron:
   case kpdg_antineutron:
     parent_mass = kNEUTRONMASS;
+    break;
+  case kpdg_tauplus:
+  case kpdg_tauminus:
+    parent_mass = kTAUMASS;
+    break;
+  case kpdg_dplus:
+  case kpdg_dminus:
+    parent_mass = kDMASS;
+    break;
+  case kpdg_d0:
+  case kpdg_dbar0:
+    parent_mass = kD0MASS;
+    break;
+  case kpdg_dsplus:
+  case kpdg_dsminus:
+    parent_mass = kDSMASS;
+    break;
+  case kpdg_lambda:
+  case kpdg_lambdabar:
+    parent_mass = kLAMBDAMASS;
+    break;
+  case kpdg_sigmaplus:
+  case kpdg_sigmabarplus:
+    parent_mass = kSIGMAPMASS;
+    break;
+  case kpdg_sigma0:
+  case kpdg_sigmabar0:
+    parent_mass = kSIGMA0MASS;
+    break;
+  case kpdg_sigmaminus:
+  case kpdg_sigmabarminus:
+    parent_mass = kSIGMAMMASS;
+    break;
+  case kpdg_lambdacplus:
+  case kpdg_lambdacminus:
+    parent_mass = kLAMBDACMASS;
+    break;
+  case kpdg_xiplus:
+  case kpdg_ximinus:
+    parent_mass = kXIMASS;
+    break;
+  case kpdg_xi0:
+  case kpdg_xibar0:
+    parent_mass = kXI0MASS;
+    break;
+  case kpdg_xicplus:
+  case kpdg_xicminus:
+    parent_mass = kXIMASS;
+    break;
+  case kpdg_xic0:
+  case kpdg_xicbar0:
+    parent_mass = kXI0MASS;
     break;
   default:
     std::cerr << "bsim::calcEnuWgt unknown particle type " << decay.ptype
@@ -238,7 +332,8 @@ int bsim::calcEnuWgt(const bsim::Decay& decay, const TVector3& xyz,
   //      decay.ptype  == kpdg_muminus        ) {
   // now:
   if ( decay.ndecay == bsim::dkp_mup_nusep ||
-       decay.ndecay == bsim::dkp_mum_nusep    ) {
+       decay.ndecay == bsim::dkp_mum_nusep ||
+       decay.ndecay == bsim::dkp_tau   ) {
     double beta[3], p_dcm_nu[4], p_nu[3], p_pcm_mp[3], partial;
 
     // Boost neu neutrino to mu decay CM
@@ -300,8 +395,10 @@ int bsim::calcEnuWgt(const bsim::Decay& decay, const TVector3& xyz,
       break;
     case kpdg_numu:
     case kpdg_numubar:
+    case kpdg_nutau:
+    case kpdg_nutaubar:
     {
-      double xnu = 2.0 * enuzr / kMUMASS;
+      double xnu = 2.0 * enuzr / parent_mass;
       wgt_ratio = ( (3.0-2.0*xnu )  - (1.0-2.0*xnu)*costh ) / (3.0-2.0*xnu);
 
       if ( wgt_ratio < 0.0 ) {
@@ -329,7 +426,7 @@ int bsim::calcEnuWgt(const bsim::Decay& decay, const TVector3& xyz,
     wgt_xy = wgt_xy * wgt_ratio;
 
   } // ptype is muon
-
+  
   return 0;
 }
 //___________________________________________________________________________
